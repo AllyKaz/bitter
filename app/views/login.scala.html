@@ -1,0 +1,12 @@
+@import forms.SignUpForm
+@(userForm: Form[SignUpForm.Data])(implicit request: MessagesProvider)
+@main("Bitter"){
+    <div class="form-container">
+        @helper.form(action = routes.AuthController.loginSubmit) {
+            @helper.inputText(userForm("username"))
+            @helper.inputText(userForm("password"))
+            <div><button type="submit">Submit</button></div>
+        }
+    </div>
+
+}(None)

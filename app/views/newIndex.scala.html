@@ -1,0 +1,7 @@
+@(user: Option[User])
+
+@user.fold(
+<div>No user logged in</div>
+)(
+    user => <p>user.username</p>
+)

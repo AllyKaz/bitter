@@ -1,0 +1,52 @@
+@import forms.PillForm
+
+@import forms.PillForm
+@(dtos: Seq[DTO], form: Form[PillForm.Data], user: Option[User])(implicit messages: MessagesProvider)
+
+@main("Bitter") {
+  @for( dto  <- dtos) {
+    <div class="pill-container">
+      <div class="pill-inner">
+        <div class="user-icon-container">
+          <img src="/assets/images/user_icon.jpeg">
+          <div class="pill-details">
+            <div class="user-name">
+              @dto.user.username
+            </div>
+            <div>
+              @dto.pill.date
+            </div>
+          </div>
+        </div>
+        @if(!dto.replies.isEmpty && (dto.replies.get > 0)){<a href="/getReplies/@dto.pill.id">}
+          <div class="pill-text">
+            <div>@dto.pill.text</div>
+          </div>
+        @if(!dto.replies.isEmpty && (dto.replies.get > 0)){</a>}
+        <div class="action-container" >
+          <button @if(!user.isEmpty){onclick="likePill(@dto.pill.id, @user.get.id)"}>
+            <span class="material-symbols-outlined">favorite</span>
+            <span id="likesCount@dto.pill.id">@dto.likes</span>
+          </button>
+
+        <button @if(!user.isEmpty){onclick="this.parentElement.parentElement.parentElement.nextElementSibling.style.display = 'block'"}>
+          <div class="material-symbols-outlined">chat_bubble</div>@dto.replies</button>
+        </div>
+      </div>
+    </div>
+    <div style="display: none">
+      <div class="form-container">
+        @if(!user.isEmpty){
+          <p>Replying to @dto.user.username  </p>
+          @helper.form(action = routes.HomeController.postPillForm) {
+            <textarea name="text" autofocus placeholder="What's on your mind?"></textarea>
+            <input type="hidden" name="replyId" value="@dto.pill.id">
+            <button>Submit</button>
+          }} else {
+            <p>Please Login to Reply</p>
+          }
+      </div>
+    </div>
+  }
+}(user)
+

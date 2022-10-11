@@ -1,0 +1,11 @@
+@import forms.PillForm
+
+@(pillForm: Form[PillForm.Data], user: Option[User])(implicit messages: MessagesProvider)
+@main("Bitter"){
+  <div class="form-container">
+    @helper.form(action = routes.HomeController.postPillForm) {
+      <textarea name="text" placeholder="What's on your mind?" autofocus></textarea>
+      <button>Submit</button>
+    }
+  </div>
+}(user)

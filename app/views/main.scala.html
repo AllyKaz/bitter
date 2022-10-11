@@ -1,0 +1,45 @@
+@*
+ * This template is called from the `index` template. This template
+ * handles the rendering of the page header and body tags. It takes
+ * two arguments, a `String` for the title of the page and an `Html`
+ * object to insert into the body of the page.
+ *@
+@import scala.concurrent.Future
+@(title: String)(content: Html)(user: Option[User])
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @* Here's where we render the page title `String`. *@
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+
+
+
+    </head>
+    <body>
+        <a href="/"><div class="title">@title</div></a>
+        <div class="top-container">
+                <div class="control-bar">
+                @if(user.isEmpty) {
+                    <button onclick="location.href='/register'">Register</button>
+                    <button onclick="location.href='/login'">Login</button>
+                } else {
+                    <button onclick="location.href='/logout'">Logout</button>
+                    <button onclick="location.href='/newPill'">Drop Pill</button>
+                    <div class="profile-name-img-container">
+                        <div>@user.get.username</div>
+                        <img id="login-profile-img" src="https://tinyurl.com/yk9yhv6s">
+                    </div>
+                }
+                </div>
+
+            @content
+        </div>
+
+      <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
+    </body>
+</html>
